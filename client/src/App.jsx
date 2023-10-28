@@ -1,9 +1,10 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Login, Signup, Home } from "./pages";
+import { Login, Signup, Home, UserDashboard } from "./pages";
 import { Toaster } from "sonner";
 import { Navbar } from "./components";
 import { useEffect, useState } from "react";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
   const pathsWithoutNavbar = ["/login", "/signup"];
@@ -23,6 +24,9 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/dashbaord" element={<UserDashboard />} />
+        </Route>
       </Routes>
     </div>
   );
