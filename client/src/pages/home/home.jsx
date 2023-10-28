@@ -5,7 +5,7 @@ import "../../App.css";
 const Home = () => {
   return (
     <section className=" home">
-      <div className="absolute inset-0 bg-gradient-to-r from-white/75 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-white/90 to-transparent"></div>
 
       <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
         <div className=" flex flex-col justify-start items-center max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
