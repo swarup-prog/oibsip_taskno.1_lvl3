@@ -1,14 +1,24 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Login, Signup, Home } from "./pages";
 import { Toaster } from "sonner";
 import { Navbar } from "./components";
+import { useEffect, useState } from "react";
 
 function App() {
+  const pathsWithoutNavbar = ["/login", "/signup"];
+  const [navbarVisible, setNavbarVisible] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+    setNavbarVisible(!pathsWithoutNavbar.includes(path));
+  }, [location.pathname]);
+
   return (
     <div>
       <Toaster richColors={true} />
-      <Navbar />
+      {navbarVisible && <Navbar />}
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />

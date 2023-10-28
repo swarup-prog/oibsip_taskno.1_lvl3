@@ -15,7 +15,7 @@ const SideNavigation = () => {
             className="md:flex md:items-center md:gap-12 cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <img src={logo} alt="" srcset="" width={90} />
+            <img src={logo} alt="Logo" width={90} />
           </div>
 
           <div className="hidden md:block">
