@@ -8,7 +8,7 @@ const SideNavigation = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-[rgb(255,255,255)] absolute z-10 w-full bg">
+    <header className="bg-[rgb(255,255,255)] fixed z-10 w-full bg">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div
