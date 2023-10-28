@@ -21,12 +21,12 @@ function App() {
       <Toaster richColors={true} />
       {navbarVisible && <Navbar />}
       <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/userDashboard" element={<UserDashboard />} />
+        </Route>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route element={<PrivateRoutes />}>
-          <Route exact path="/userDashbaord" element={<UserDashboard />} />
-        </Route>
       </Routes>
     </div>
   );

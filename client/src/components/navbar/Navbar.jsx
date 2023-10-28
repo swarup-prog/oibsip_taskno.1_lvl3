@@ -21,7 +21,12 @@ const SideNavigation = () => {
           <div className="hidden md:block">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
-                <li className="text-ternary">Dashboard</li>
+                <li
+                  className="text-ternary"
+                  onClick={() => navigate("/userDashboard")}
+                >
+                  Dashboard
+                </li>
                 <li className="text-ternary">Orders</li>
               </ul>
             </nav>
