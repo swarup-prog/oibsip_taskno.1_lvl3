@@ -82,7 +82,7 @@ const Login = () => {
         <div className="flex gap-2 text-primaryT">
           Don't have an acount?
           <span
-            className="text-primary font-medium hover:underline cursor-pointer"
+            className="text-accent font-medium hover:underline cursor-pointer"
             onClick={() => navigate("/signup")}
           >
             Signup
