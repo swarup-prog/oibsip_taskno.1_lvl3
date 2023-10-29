@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsArrowBarLeft } from "react-icons/bs";
-
 import { TextInput, CustomButton } from "../../components";
+import { toastError, toastSuccess } from "../../utils/toast";
+// import { PostRequest } from "../../services/httpRequest";
 
 import "../../App.css";
 import bgimg from "../../assets/bgimg.jpg";
-import { BiLogoGoogle } from "react-icons/bi";
-import { toastError, toastSuccess } from "../../utils/toast";
-// import { PostRequest } from "../../services/httpRequest";
+import logo from "../../assets/logos/logo-white-transparent.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,9 +59,14 @@ const Login = () => {
           width: "50%",
           height: "100%",
         }}
-      ></section>
+      >
+        <div className="flex flex-col items-center justify-center">
+          <div class="backdrop-blur-md absolute inset-0 -z-10"></div>
+          <img src={logo} alt="" size />
+        </div>
+      </section>
       <section className="flex flex-col justify-center items-center gap-10 min-w-full min-h-screen bg-secondary lg:flex-1 lg:min-w-0 p-5 lg:ml-[50%] ">
-        <span className="text-2xl text-primaryT font-bold">LOGIN</span>
+        <h1 className="text-2xl text-primaryT font-bold">LOGIN</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <TextInput
             type="text"
@@ -84,7 +88,7 @@ const Login = () => {
             title="Login"
           />
         </form>
-        <div className="text-primary hover:underline cursor-pointer">
+        <div className="text-accent hover:underline cursor-pointer">
           Forgot Password?
         </div>
         <div className="flex gap-2 text-primaryT">
