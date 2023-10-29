@@ -7,6 +7,6 @@ const {
 
 router.route("/getUserInfo/:id").get(getUserInfo);
 
-router.route("/updateUserInfo/:id").put(updateUserInfo);
+router.route("/updateUserInfo/:email").put(updateUserInfo);
 
 module.exports = router;

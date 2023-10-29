@@ -19,30 +19,29 @@ const getUserInfo = async (req, res) => {
 
 const updateUserInfo = async (req, res) => {
   try {
-    const userId = req.params.id;
-    console.log(userId);
+    const email = req.params.email;
     const body = { ...req.body };
 
     var hashedPassword = "";
 
-    if (body.password) {
+    if (body.newPassword) {
       const salt = await bcrypt.genSalt(Number(process.env.SALT));
-      hashedPassword = await bcrypt.hash(body.password, salt);
+      hashedPassword = await bcrypt.hash(body.newPassword, salt);
     }
 
-    const updateUser = await User.findByIdAndUpdate(
-      userId,
-      { ...body, password: hashedPassword },
-      { new: true }
-    );
+    const user = await User.findOne({ email: email }); 
 
-    if (!updateUser) {
+    if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
 
-    res.status(200);
+    // Update the user document and save the changes
+    user.set({ ...body, password: hashedPassword });
+    const updatedUser = await user.save();
+
+    res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Error upadting user details:", error);
+    console.error("Error updating user details:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
