@@ -27,8 +27,8 @@ const Login = () => {
       const response = await PostRequest("/auth/login", formData);
       if (response.status === 200) {
         toastSuccess(response.data.message);
-        localStorage.setItem("session-token", response.data.token);
-        navigate("/home");
+        localStorage.setItem("userToken", response.data.token);
+        navigate("/");
       }
       console.log("response", response);
     } catch (error) {
