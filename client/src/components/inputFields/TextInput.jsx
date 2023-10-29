@@ -16,7 +16,7 @@ const TextInput = ({ type, value, onChange, name, label }) => {
     <div className="relative">
       <label
         htmlFor={name}
-        className="min-w-[332px] block overflow-hidden rounded-lg border border-accent px-3 py-2 lg:w-[300px] shadow-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-red-500 "
+        className="min-w-[332px] block overflow-hidden rounded-lg border border-ternary px-3 py-2 lg:w-[300px] shadow-sm focus-within:border-accent focus-within:ring-1 focus-within:ring-accent "
       >
         <span className="text-xs font-medium text-primaryT ">{label}</span>
 
