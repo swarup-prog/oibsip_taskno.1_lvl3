@@ -4,6 +4,8 @@ import { BsArrowBarLeft } from "react-icons/bs";
 import { TextInput, CustomButton } from "../../components";
 import { toastError, toastSuccess } from "../../utils/toast";
 import { PostRequest } from "../../services/httpRequest";
+import { useDispatch } from "react-redux";
+import { setOTP } from "../../features/otpSlice";
 
 import "../../App.css";
 import bgimg from "../../assets/bgimg.jpg";
@@ -11,6 +13,7 @@ import logo from "../../assets/logos/logo-white-transparent.png";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -33,6 +36,26 @@ const Login = () => {
       console.log("response", response);
     } catch (error) {
       toastError(error.response.data.message);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const email = formData.email;
+    if (email === "") {
+      toastError("Email field is empty.");
+    } else {
+      const OTP = Math.floor(Math.random() * 9000 + 1000);
+      dispatch(setOTP(OTP));
+
+      try {
+        const response = await PostRequest("/recovery/mail", { email, OTP });
+        if (response.status === 200) {
+          toastSuccess(response.data.message);
+          navigate(`/recovery/${formData.email}`);
+        }
+      } catch (error) {
+        toastError(error.response.data.message);
+      }
     }
   };
 
@@ -85,7 +108,10 @@ const Login = () => {
             title="Login"
           />
         </form>
-        <div className="text-accent hover:underline cursor-pointer">
+        <div
+          className="text-accent hover:underline cursor-pointer"
+          onClick={handleForgotPassword}
+        >
           Forgot Password?
         </div>
         <div className="flex gap-2 text-primaryT">
