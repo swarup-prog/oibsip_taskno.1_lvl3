@@ -5,34 +5,43 @@ import { Toaster } from "sonner";
 import { Navbar } from "./components";
 import { useEffect, useState } from "react";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import { Provider } from "react-redux";
-import { store } from "./app/store";
+
+import { useDispatch } from "react-redux";
+import { jwtDecode } from "jwt-decode";
+import { fetchUserData } from "./features/authSlice";
 
 function App() {
   const pathsWithoutNavbar = ["/login", "/signup"];
   const [navbarVisible, setNavbarVisible] = useState(true);
   const location = useLocation();
-
   useEffect(() => {
     const path = location.pathname;
     setNavbarVisible(!pathsWithoutNavbar.includes(path));
   }, [location.pathname]);
 
+  const dispatch = useDispatch();
+  const userToken = localStorage.getItem("userToken");
+  useEffect(() => {
+    if (userToken) {
+      const userId = jwtDecode(userToken)._id;
+      dispatch(fetchUserData(userId));
+    }
+  }, [dispatch, userToken]);
+
   return (
     <div>
       <Toaster richColors={true} />
-      <Provider store={store}>
-        {navbarVisible && <Navbar />}
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route exact path="/userDashboard" element={<UserDashboard />} />
-          </Route>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </Provider>
+
+      {navbarVisible && <Navbar />}
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/userDashboard" element={<UserDashboard />} />
+        </Route>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
     </div>
   );
 }
