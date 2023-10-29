@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Login, Signup, Home, UserDashboard } from "./pages";
+import { Login, Signup, Home, UserDashboard, Error } from "./pages";
 import { Toaster } from "sonner";
 import { Navbar } from "./components";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
