@@ -6,10 +6,8 @@ const sendEmail = (req, res) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      // user: process.env.MY_EMAIL,
-      // pass: process.env.MY_PASSWORD,
-      user: "lswarup.prog@gmail.com",
-      pass: "dzku zfot nglj atln",
+      user: process.env.MY_EMAIL,
+      pass: process.env.MY_PASSWORD,
     },
   });
 
@@ -55,7 +53,7 @@ const sendEmail = (req, res) => {
       console.log(error);
       return res.status(500).send({ message: "Internal Server Error." });
     }
-    return res.send({ message: "Email sent successfully" });
+    return res.status(200).send({ message: "Email sent successfully" });
   });
 };
 
