@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BsArrowBarLeft } from "react-icons/bs";
 
 import { TextInput, CustomButton } from "../../components";
 
@@ -13,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -40,7 +41,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex min-h-screen">
+      <div
+        className="absolute z-20 top-4 left-4 text-secondary hover:text-accent flex gap-1 cursor-pointer"
+        onClick={() => navigate("/")}
+      >
+        <BsArrowBarLeft size={25} />
+        Home
+      </div>
       <section
         className=" hidden  flex-1 bg-secondary min-h-screen lg:flex"
         style={{
@@ -58,9 +66,9 @@ const Login = () => {
         <form className="login-form" onSubmit={handleSubmit}>
           <TextInput
             type="text"
-            name="username"
-            label="Username"
-            value={formData.username}
+            name="email"
+            label="Email"
+            value={formData.email}
             onChange={handleChange}
           />
           <TextInput
