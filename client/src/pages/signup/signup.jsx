@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BsArrowBarLeft } from "react-icons/bs";
 import { TextInput, CustomButton } from "../../components";
 import { toastError, toastSuccess } from "../../utils/toast";
-// import { PostRequest } from "../../services/httpRequest";
+import { PostRequest } from "../../services/httpRequest";
 
 import "../../App.css";
 import bgimg from "../../assets/bgimg.jpg";
@@ -34,20 +34,18 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { confirmPassword, ...formDataRequest } = formData;
-    // if (checkPasswordMatch()) {
-    //   try {
-    //     const response = await PostRequest(
-    //       "/auth/register",
-    //       formDataRequest
-    //     );
-    //     if (response.status === 201) {
-    //       toastSuccess(response.data.message);
-    //       navigate("/");
-    //     }
-    //     console.log("response", response);
-    //   } catch (error) {
-    //     toastError(error.response.data.message);
-    //   }
+    if (checkPasswordMatch()) {
+      try {
+        const response = await PostRequest("/auth/register", formDataRequest);
+        if (response.status === 201) {
+          toastSuccess(response.data.message);
+          navigate("/login");
+        }
+        console.log("response", response);
+      } catch (error) {
+        toastError(error.response.data.message);
+      }
+    }
   };
 
   return (
