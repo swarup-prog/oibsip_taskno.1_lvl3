@@ -40,7 +40,7 @@ const updateUserInfo = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    res.status(200).json("updateUser");
+    res.status(200);
   } catch (error) {
     console.error("Error upadting user details:", error);
     res.status(500).json({ error: "Internal server error" });
