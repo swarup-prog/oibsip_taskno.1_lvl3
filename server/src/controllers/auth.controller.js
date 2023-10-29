@@ -51,13 +51,7 @@ const login = async (req, res) => {
     }
 
     const token = user.generateAuthToken();
-    res
-      .cookie("session-token", token, {
-        httpOnly: true,
-        sameSite: true,
-      })
-      .status(200)
-      .send({ token, message: "Login successful." });
+    res.status(200).send({ token, message: "Login successful." });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error." });
   }
