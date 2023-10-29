@@ -5,6 +5,8 @@ import { Toaster } from "sonner";
 import { Navbar } from "./components";
 import { useEffect, useState } from "react";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 function App() {
   const pathsWithoutNavbar = ["/login", "/signup"];
@@ -19,16 +21,18 @@ function App() {
   return (
     <div>
       <Toaster richColors={true} />
-      {navbarVisible && <Navbar />}
-      <Routes>
-        <Route element={<PrivateRoutes />}>
-          <Route exact path="/userDashboard" element={<UserDashboard />} />
-        </Route>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<Signup />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
+      <Provider store={store}>
+        {navbarVisible && <Navbar />}
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            <Route exact path="/userDashboard" element={<UserDashboard />} />
+          </Route>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Provider>
     </div>
   );
 }
