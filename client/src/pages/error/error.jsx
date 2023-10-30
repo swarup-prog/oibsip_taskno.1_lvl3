@@ -44,15 +44,7 @@ const Error = ({ error }) => {
               : "Go Back Home"
           }
           className="mt-6"
-          onClick={() =>
-            navigate(
-              user.data.role === "user"
-                ? "/dashboard"
-                : user.data.role === "admin"
-                ? "/inventory"
-                : "/"
-            )
-          }
+          onClick={() => navigate(user.data.role ? "/dashboard" : "/")}
         />
       </div>
     </div>
