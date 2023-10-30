@@ -43,21 +43,21 @@ const Navbar = () => {
             {user.isLoggedIn && (
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
+                  <li
+                    className="text-ternary"
+                    onClick={() => navigate("/dashbaord")}
+                  >
+                    Dashboard
+                  </li>
                   {userData.role === "user" && (
-                    <>
-                      <li className="text-ternary">Store</li>
-                      <li className="text-ternary" onClick={() => {}}>
-                        Custom Pizza
-                      </li>
-                    </>
+                    <li className="text-ternary" onClick={() => {}}>
+                      Custom Pizza
+                    </li>
                   )}
                   {userData.role === "admin" && (
-                    <>
-                      <li className="text-ternary">Inventory</li>
-                      <li className="text-ternary" onClick={() => {}}>
-                        Orders
-                      </li>
-                    </>
+                    <li className="text-ternary" onClick={() => {}}>
+                      Orders
+                    </li>
                   )}
                 </ul>
               </nav>
