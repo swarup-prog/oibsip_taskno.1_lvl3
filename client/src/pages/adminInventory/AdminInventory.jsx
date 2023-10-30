@@ -32,7 +32,7 @@ const AdminInventory = () => {
           isActive={activeTab === "Add Ingredients"}
         />
       </aside>
-      <section className=" flex-1 dashboard-section">
+      <section className=" flex-1 dashboard-section w">
         {activeTab === "Orders" && <Orders />}
         {activeTab === "Inventory" && <Inventory />}
         {activeTab === "Add Ingredients" && <AddIngredients />}
