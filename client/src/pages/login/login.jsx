@@ -31,7 +31,7 @@ const Login = () => {
       if (response.status === 200) {
         toastSuccess(response.data.message);
         localStorage.setItem("userToken", response.data.token);
-        navigate("/");
+        navigate("/dashboard");
       }
       console.log("response", response);
     } catch (error) {

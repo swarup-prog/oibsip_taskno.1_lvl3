@@ -1,14 +1,36 @@
 import logo from "../../assets/logos/logo-no-background.png";
 import CustomButton from "../buttons/CustomButton";
-
+import Notification from "../cards/Notification";
+import DropdownMenu from "../dropdowns/DropdownMenu";
 import { useNavigate } from "react-router-dom";
-import "../../App.css";
+import { useSelector, useDispatch } from "react-redux";
+import { clearUserData } from "../../features/authSlice";
+import { RiNotification2Line } from "react-icons/ri";
 
-const SideNavigation = () => {
+import "../../App.css";
+import { useEffect, useRef, useState } from "react";
+
+const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userData);
+  const userData = user.data;
+  const lenUserData = userData.length;
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    dispatch(clearUserData());
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   return (
-    <header className="bg-[rgb(255,255,255)] fixed z-10 w-full bg">
+    <header className="bg-secondary fixed z-10 w-full bg">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div
@@ -17,26 +39,54 @@ const SideNavigation = () => {
           >
             <img src={logo} alt="Logo" width={90} />
           </div>
-
-          <div className="hidden md:block">
-            <nav aria-label="Global">
-              <ul className="flex items-center gap-6 text-sm">
-                <li
-                  className="text-ternary"
-                  onClick={() => navigate("/userDashboard")}
-                >
-                  Dashboard
-                </li>
-                <li className="text-ternary">Orders</li>
-              </ul>
-            </nav>
+          <div className="block">
+            {user.isLoggedIn && (
+              <nav aria-label="Global">
+                <ul className="flex items-center gap-6 text-sm">
+                  {userData.role === "user" && (
+                    <>
+                      <li className="text-ternary">Store</li>
+                      <li className="text-ternary" onClick={() => {}}>
+                        Custom Pizza
+                      </li>
+                    </>
+                  )}
+                  {userData.role === "admin" && (
+                    <>
+                      <li className="text-ternary">Inventory</li>
+                      <li className="text-ternary" onClick={() => {}}>
+                        Orders
+                      </li>
+                    </>
+                  )}
+                </ul>
+              </nav>
+            )}
           </div>
-
-          <CustomButton title="Login" onClick={() => navigate("/login")} />
+          <div className="flex items-center gap-5">
+            {user.isLoggedIn && (
+              <div className="flex flex-col items-end">
+                <RiNotification2Line
+                  className={isDropdownOpen ? "text-accent" : "text-ternary"}
+                  size={20}
+                  onClick={toggleDropdown}
+                />
+                <DropdownMenu
+                  ref={dropdownRef}
+                  className={isDropdownOpen ? "block" : "hidden"}
+                />
+              </div>
+            )}
+            {lenUserData === 0 ? (
+              <CustomButton title="Login" onClick={() => navigate("/login")} />
+            ) : (
+              <CustomButton title="Logout" onClick={handleLogout} />
+            )}
+          </div>
         </div>
       </div>
     </header>
   );
 };
 
-export default SideNavigation;
+export default Navbar;

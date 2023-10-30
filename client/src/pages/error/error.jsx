@@ -1,8 +1,26 @@
 import { CustomButton } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Error = () => {
+const Error = ({ error }) => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.userData);
+  const userRole = user.data.role;
+
+  const details = {
+    user: {
+      title: "Go To Dashboard",
+      nav: "/dashboard",
+    },
+    admin: {
+      title: "Go To Inventory",
+      nav: "/inventory",
+    },
+    user: {
+      title: "Go To Home",
+      nav: "/",
+    },
+  };
 
   return (
     <div className="flex justify-center items-center h-screen px-4 bg-white place-content-center">
@@ -13,12 +31,28 @@ const Error = () => {
           Uh-oh!
         </p>
 
-        <p className="mt-4 text-ternary">We can't find that page.</p>
+        <p className="mt-4 text-ternary">
+          {error ? error : "We can't find that page."}
+        </p>
 
         <CustomButton
-          title="Go Back Home"
+          title={
+            user.data.role === "user"
+              ? "Go To Dashboard"
+              : user.data.role === "admin"
+              ? "Go To Inventory"
+              : "Go Back Home"
+          }
           className="mt-6"
-          onClick={() => navigate("/")}
+          onClick={() =>
+            navigate(
+              user.data.role === "user"
+                ? "/dashboard"
+                : user.data.role === "admin"
+                ? "/inventory"
+                : "/"
+            )
+          }
         />
       </div>
     </div>
