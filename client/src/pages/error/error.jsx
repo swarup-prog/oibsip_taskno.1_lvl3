@@ -5,22 +5,6 @@ import { useSelector } from "react-redux";
 const Error = ({ error }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.userData);
-  const userRole = user.data.role;
-
-  const details = {
-    user: {
-      title: "Go To Dashboard",
-      nav: "/dashboard",
-    },
-    admin: {
-      title: "Go To Inventory",
-      nav: "/inventory",
-    },
-    user: {
-      title: "Go To Home",
-      nav: "/",
-    },
-  };
 
   return (
     <div className="flex justify-center items-center h-screen px-4 bg-white place-content-center">

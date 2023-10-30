@@ -8,6 +8,7 @@ import {
   Error,
   OTPInput,
   ResetPassword,
+  AdminInventory,
 } from "./pages";
 import { Toaster } from "sonner";
 import { Navbar } from "./components";
@@ -45,7 +46,12 @@ function App() {
       {navbarVisible && <Navbar />}
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route exact path="/dashboard" element={<UserDashboard />} />
+          {user.data.role === "user" && (
+            <Route exact path="/dashboard" element={<UserDashboard />} />
+          )}
+          {user.data.role === "admin" && (
+            <Route exact path="/dashboard" element={<AdminInventory />} />
+          )}
         </Route>
         {!user.isLoggedIn && <Route exact path="/" element={<Home />} />}
         <Route exact path="/login" element={<Login />} />

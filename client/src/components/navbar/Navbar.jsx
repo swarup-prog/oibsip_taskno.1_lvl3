@@ -18,7 +18,6 @@ const Navbar = () => {
   const lenUserData = userData.length;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");
@@ -45,18 +44,13 @@ const Navbar = () => {
                 <ul className="flex items-center gap-6 text-sm">
                   <li
                     className="text-ternary"
-                    onClick={() => navigate("/dashbaord")}
+                    onClick={() => navigate("/dashboard")}
                   >
                     Dashboard
                   </li>
                   {userData.role === "user" && (
                     <li className="text-ternary" onClick={() => {}}>
                       Custom Pizza
-                    </li>
-                  )}
-                  {userData.role === "admin" && (
-                    <li className="text-ternary" onClick={() => {}}>
-                      Orders
                     </li>
                   )}
                 </ul>
@@ -71,10 +65,7 @@ const Navbar = () => {
                   size={20}
                   onClick={toggleDropdown}
                 />
-                <DropdownMenu
-                  ref={dropdownRef}
-                  className={isDropdownOpen ? "block" : "hidden"}
-                />
+                <DropdownMenu className={isDropdownOpen ? "block" : "hidden"} />
               </div>
             )}
             {lenUserData === 0 ? (

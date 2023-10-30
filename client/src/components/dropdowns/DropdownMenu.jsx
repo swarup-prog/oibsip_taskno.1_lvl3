@@ -1,7 +1,6 @@
 import Notification from "../cards/Notification";
-import { forwardRef } from "react";
 
-const DropdownMenu = forwardRef(({ className }) => {
+const DropdownMenu = ({ className }) => {
   return (
     <div
       className={`fixed mt-12 z-10 min-w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg ${className}`}
@@ -18,6 +17,6 @@ const DropdownMenu = forwardRef(({ className }) => {
       </div>
     </div>
   );
-});
+};
 
 export default DropdownMenu;

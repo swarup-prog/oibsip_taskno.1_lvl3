@@ -5,5 +5,15 @@ import UserDashboard from "./userDashboard/userDashboard";
 import Error from "./error/error";
 import OTPInput from "./otpverification/otpInput";
 import ResetPassword from "./otpverification/resetPassword";
+import AdminInventory from "./adminInventory/AdminInventory";
 
-export { Login, Signup, Home, UserDashboard, Error, OTPInput, ResetPassword };
+export {
+  Login,
+  Signup,
+  Home,
+  UserDashboard,
+  Error,
+  OTPInput,
+  ResetPassword,
+  AdminInventory,
+};
