@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   loading: false,
   data: [],
+  isLoggedIn: false,
   error: null,
 };
 
@@ -17,6 +18,12 @@ export const fetchUserData = createAsyncThunk(
   }
 );
 
+const CLEAR_USER_DATA = "auth/clearUserData";
+
+export const clearUserData = () => ({
+  type: CLEAR_USER_DATA,
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -28,11 +35,16 @@ const authSlice = createSlice({
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
+        state.isLoggedIn = true;
         state.error = null;
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(CLEAR_USER_DATA, (state) => {
+        state.data = [];
+        state.isLoggedIn = false;
       });
   },
 });
