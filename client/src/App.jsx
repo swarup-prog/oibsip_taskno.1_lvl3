@@ -14,7 +14,7 @@ import { Navbar } from "./components";
 import { useEffect, useState } from "react";
 import PrivateRoutes from "./utils/PrivateRoutes";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { fetchUserData } from "./features/authSlice";
 
@@ -36,6 +36,8 @@ function App() {
     }
   }, [dispatch, userToken]);
 
+  const user = useSelector((state) => state.userData);
+
   return (
     <div>
       <Toaster richColors={true} />
@@ -43,9 +45,9 @@ function App() {
       {navbarVisible && <Navbar />}
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route exact path="/userDashboard" element={<UserDashboard />} />
+          <Route exact path="/dashboard" element={<UserDashboard />} />
         </Route>
-        <Route exact path="/" element={<Home />} />
+        {!user.isLoggedIn && <Route exact path="/" element={<Home />} />}
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route path="/recovery/:email" element={<OTPInput />} />
