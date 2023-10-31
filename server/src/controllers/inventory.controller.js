@@ -16,4 +16,15 @@ const addIngredient = async (req, res) => {
   }
 };
 
-module.exports = { addIngredient };
+const getAllIngredients = async (req, res) => {
+  try {
+    const ingredients = await Inventory.find();
+
+    return res.status(200).json(ingredients);
+  } catch (error) {
+    console.error("Error retrieving ingredients:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { addIngredient, getAllIngredients };
