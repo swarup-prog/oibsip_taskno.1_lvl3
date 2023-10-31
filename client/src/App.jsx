@@ -18,6 +18,7 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { fetchUserData } from "./features/authSlice";
+import { fetchIngredients } from "./features/inventorySlice";
 
 function App() {
   const pathsWithoutNavbar = ["/login", "/signup"];
@@ -34,6 +35,7 @@ function App() {
     if (userToken) {
       const userId = jwtDecode(userToken)._id;
       dispatch(fetchUserData(userId));
+      dispatch(fetchIngredients());
     }
   }, [dispatch, userToken]);
 
