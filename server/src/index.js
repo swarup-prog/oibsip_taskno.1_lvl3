@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 const AuthRoute = require("./routes/auth.routes.js");
 const UserRoute = require("./routes/user.routes.js");
 const PasswordRecoveryRoute = require("./routes/email.routes.js");
+const InventoryRoute = require("./routes/inventory.routes.js");
 
 connection();
 
@@ -29,6 +30,7 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use("/api/auth", AuthRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/recovery", PasswordRecoveryRoute);
+app.use("/api/inventory", InventoryRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port : ", process.env.PORT);
