@@ -48,12 +48,17 @@ function App() {
       {navbarVisible && <Navbar />}
       <Routes>
         <Route element={<PrivateRoutes />}>
-          {user.data.role === "user" && (
-            <Route exact path="/dashboard" element={<UserDashboard />} />
-          )}
-          {user.data.role === "admin" && (
-            <Route exact path="/dashboard" element={<AdminInventory />} />
-          )}
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              user.data.role === "admin" ? (
+                <AdminInventory />
+              ) : (
+                <UserDashboard />
+              )
+            }
+          />
         </Route>
         {!user.isLoggedIn && <Route exact path="/" element={<Home />} />}
         <Route exact path="/login" element={<Login />} />
