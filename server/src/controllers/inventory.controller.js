@@ -27,4 +27,26 @@ const getAllIngredients = async (req, res) => {
   }
 };
 
-module.exports = { addIngredient, getAllIngredients };
+const updateIngredient = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = { ...req.body };
+
+    const ingredient = await Inventory.findById({ _id: id });
+
+    if (!ingredient) {
+      return res.status(404).json({ message: "Ingredient not found." });
+    }
+
+    // Update the ingredient document and save the changes
+    ingredient.set({ ...body });
+    const updatedIngredient = await ingredient.save();
+
+    res.status(200).json(updateIngredient);
+  } catch (error) {
+    console.error("Error updating ingredient details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { addIngredient, getAllIngredients, updateIngredient };
