@@ -7,6 +7,6 @@ const {
 
 router.route("/addIngredient").post(addIngredient);
 router.route("/getAllIngredients").get(getAllIngredients);
-router.route("/updateIngredient").post(updateIngredient);
+router.route("/updateIngredient/:id").post(updateIngredient);
 
 module.exports = router;
