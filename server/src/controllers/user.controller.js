@@ -22,14 +22,14 @@ const updateUserInfo = async (req, res) => {
     const email = req.params.email;
     const body = { ...req.body };
 
-    var hashedPassword = "";
+    let hashedPassword = "";
 
     if (body.newPassword) {
       const salt = await bcrypt.genSalt(Number(process.env.SALT));
       hashedPassword = await bcrypt.hash(body.newPassword, salt);
     }
 
-    const user = await User.findOne({ email: email }); 
+    const user = await User.findOne({ email: email });
 
     if (!user) {
       return res.status(404).json({ message: "User not found." });
