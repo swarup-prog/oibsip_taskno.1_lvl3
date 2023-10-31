@@ -5,6 +5,7 @@ import Tab from "./dashboard/Tab";
 import TextArea from "./inputFields/TextArea";
 import IngredientForm from "./dashboard/IngredientForm";
 import ItemsDropdown from "./dropdowns/ItemsDropdown";
+import InventoryTable from "./dashboard/InventoryTable";
 
 export {
   TextInput,
@@ -14,4 +15,5 @@ export {
   TextArea,
   IngredientForm,
   ItemsDropdown,
+  InventoryTable,
 };
