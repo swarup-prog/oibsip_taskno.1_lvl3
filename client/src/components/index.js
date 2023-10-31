@@ -6,6 +6,7 @@ import TextArea from "./inputFields/TextArea";
 import IngredientForm from "./dashboard/IngredientForm";
 import ItemsDropdown from "./dropdowns/ItemsDropdown";
 import InventoryTable from "./dashboard/InventoryTable";
+import UpdateModal from "./modal/UpdateModal";
 
 export {
   TextInput,
@@ -16,4 +17,5 @@ export {
   IngredientForm,
   ItemsDropdown,
   InventoryTable,
+  UpdateModal,
 };

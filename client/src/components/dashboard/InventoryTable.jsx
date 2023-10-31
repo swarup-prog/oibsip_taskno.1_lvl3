@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux";
-import CustomButton from "../buttons/CustomButton";
 import { AiFillEdit } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { setIngredient } from "../../features/ingredientSlice";
 
 const InventoryTable = ({ heading }) => {
+  const dispatch = useDispatch();
+
   const words = heading.split(" ");
   const type = words
     .map((word, index) => {
@@ -15,6 +18,10 @@ const InventoryTable = ({ heading }) => {
     .join("");
 
   const ingredients = useSelector((state) => state.inventory.data);
+
+  const handleUpdate = (ingredient) => {
+    dispatch(setIngredient(ingredient));
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -57,6 +64,7 @@ const InventoryTable = ({ heading }) => {
                     <AiFillEdit
                       size={17}
                       className="hover:text-accent cursor-pointer"
+                      onClick={() => handleUpdate(ingredient)}
                     />
                   </td>
                 </tr>
