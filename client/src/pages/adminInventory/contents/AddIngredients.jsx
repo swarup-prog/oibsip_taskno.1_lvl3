@@ -55,7 +55,6 @@ const AddIngredients = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
       const response = await PostRequest("/inventory/addIngredient", formData);
       if (response.status === 201) {
@@ -114,7 +113,6 @@ const AddIngredients = () => {
               setFormData({ ...formData, type: event.value });
             }}
           />
-          <span>{formData.type}</span>
         </div>
         <TextArea
           name="description"
