@@ -6,6 +6,8 @@ import CustomButton from "../buttons/CustomButton";
 import { useEffect, useState } from "react";
 import TextArea from "../inputFields/TextArea";
 import { useSelector } from "react-redux";
+import { toastError, toastSuccess } from "../../utils/toast";
+import { PostRequest } from "../../services/httpRequest";
 
 const UpdateModal = ({ isOpen }) => {
   const dispatch = useDispatch();
@@ -18,17 +20,42 @@ const UpdateModal = ({ isOpen }) => {
   console.log("Ingredients ", ingredient);
 
   const [formData, setFormData] = useState({
-    name: ingredient?.name,
-    price: ingredient?.price,
-    quantity: ingredient?.quantity,
-    description: ingredient?.description,
+    name: "",
+    price: 0,
+    quantity: 0,
+    description: "",
   });
+
+  useEffect(() => {
+    setFormData({
+      name: ingredient?.name,
+      price: ingredient?.price,
+      quantity: ingredient?.quantity,
+      description: ingredient?.description,
+    });
+  }, [ingredient]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await PostRequest(
+        `/inventory/updateIngredient/${ingredient._id}`,
+        formData
+      );
+      if (response.status === 201) {
+        toastSuccess(response.data.message);
+        dispatch(setIngredient({}));
+      }
+      console.log("response", response);
+    } catch (error) {
+      console.log(error);
+      toastError(error.message);
+    }
+  };
 
   return (
     <div
