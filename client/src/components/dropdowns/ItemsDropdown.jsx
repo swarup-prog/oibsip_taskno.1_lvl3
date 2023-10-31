@@ -1,40 +1,90 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import React from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
-const ItemsDropdown = ({ name, items, onChange, value, label }) => {
+const Select = ({
+  label,
+  options,
+  value: selectedOption,
+  onChange: handelChange,
+}) => {
   return (
-    <Box sx={{ width: 250 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          name={name}
-          value={value}
-          label={label}
-          onChange={onChange}
-          sx={{
-            "& .MuiInputBase-input": {
-              // backgroundColor: "yourColorHere",
-              borderColor: "#4C2B21",
-            },
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#4C2B21", // Change this to the desired border color
-            },
-          }}
-        >
-          {items.map((item, index) => (
-            <MenuItem value={item} key={index}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+    <Listbox
+      as="div"
+      //className={className}
+      value={selectedOption}
+      onChange={(event) => {
+        console.log("enfant", event);
+        handelChange(event);
+      }}
+    >
+      {({ open }) => (
+        <>
+          {/*label && (
+            <Listbox.Label className="mb-1 text-sm font-medium text-blue-gray-500">
+              {label}
+            </Listbox.Label>
+          )*/}
+          <div className="relative mt-1">
+            <span className="inline-block w-full rounded-md shadow-sm">
+              <Listbox.Button className="cursor-default relative w-full rounded-md border border-gray-300 bg-white pl-3 pr-10 py-2 text-left  transition ease-in-out duration-150">
+                <span className="block truncate">{selectedOption.label}</span>
+                <span className="absolute inset-y-0 right-0 flex items-center pr-2 ml-3 pointer-events-none">
+                  <MdKeyboardArrowDown />
+                </span>
+              </Listbox.Button>
+            </span>
+            <div className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg mb-11">
+              {/* bottom-0 will open the select menu up & mb-11 will put the dropup above the select option */}
+              <Transition
+                show={open}
+                leave="transition duration-100 ease-in"
+                leaveFrom="transform opacity-100"
+                leaveTo="transform opacity-0"
+              >
+                <Listbox.Options
+                  static
+                  className="py-1 overflow-auto text-base rounded-md max-h-56 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                >
+                  {options.map((option) => {
+                    return (
+                      <Listbox.Option
+                        as={React.Fragment}
+                        key={option.id}
+                        value={option}
+                      >
+                        {({ active, selected }) => {
+                          return (
+                            <li
+                              className={`${
+                                active
+                                  ? "text-white bg-accent"
+                                  : "text-gray-900"
+                              } cursor-default select-none relative py-2 pl-3 pr-9`}
+                            >
+                              <div className="flex items-center">
+                                <span
+                                  className={`${
+                                    selected ? "font-semibold" : "font-normal"
+                                  } flex items-center  truncate`}
+                                >
+                                  {option.label}
+                                </span>
+                              </div>
+                            </li>
+                          );
+                        }}
+                      </Listbox.Option>
+                    );
+                  })}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </div>
+        </>
+      )}
+    </Listbox>
   );
 };
-export default ItemsDropdown;
+
+export default Select;
