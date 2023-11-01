@@ -1,8 +1,21 @@
+import { useDispatch } from "react-redux";
+import { setIngredient } from "../../features/customOrderSlice";
+import { useEffect } from "react";
+
 const IngredientsCard = ({
   ingredient,
   small = ingredient.description ? false : true,
   isSelected,
+  onClick,
 }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isSelected) {
+      dispatch(setIngredient({ type: ingredient.type, ...ingredient }));
+    }
+  }, [isSelected]);
+
   return (
     <div
       className={`${
@@ -10,6 +23,7 @@ const IngredientsCard = ({
       } border flex flex-col  ${
         small ? "w-60 h-[90px]" : "w-80 h-[170px]"
       } px-3 py-3  hover:shadow-accent  hover:border-none hover:shadow-md rounded-lg cursor-pointer justfy-center items-center gap-2`}
+      onClick={onClick}
     >
       <h1 className="font-bold text-lg">{ingredient.name}</h1>
       <p className="text-xs text-justify text-ternary">
