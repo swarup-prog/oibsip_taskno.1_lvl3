@@ -52,7 +52,10 @@ const Navbar = () => {
                   )}
                   {userData.role === "user" && (
                     <>
-                      <li className="text-ternary" onClick={() => {}}>
+                      <li
+                        className="text-ternary"
+                        onClick={() => navigate("/kitchen")}
+                      >
                         Kitchen
                       </li>
                       <li className="text-ternary" onClick={() => {}}>

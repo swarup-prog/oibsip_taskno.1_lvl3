@@ -4,7 +4,7 @@ import {
   Login,
   Signup,
   Home,
-  UserDashboard,
+  Kitchen,
   Error,
   OTPInput,
   ResetPassword,
@@ -48,17 +48,8 @@ function App() {
       {navbarVisible && <Navbar />}
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route
-            exact
-            path="/dashboard"
-            element={
-              user.data.role === "admin" ? (
-                <AdminInventory />
-              ) : (
-                <UserDashboard />
-              )
-            }
-          />
+          <Route exact path="/dashboard" element={<AdminInventory />} />
+          <Route exact path="/kitchen" element={<Kitchen />} />
         </Route>
         {!user.isLoggedIn && <Route exact path="/" element={<Home />} />}
         <Route exact path="/login" element={<Login />} />
