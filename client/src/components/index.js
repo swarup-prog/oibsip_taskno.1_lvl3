@@ -8,6 +8,7 @@ import ItemsDropdown from "./dropdowns/ItemsDropdown";
 import InventoryTable from "./dashboard/InventoryTable";
 import UpdateModal from "./modal/UpdateModal";
 import IngredientCard from "./cards/IngredientsCard";
+import IngredientSetion from "./dashboard/IngredientSetion";
 
 export {
   TextInput,
@@ -20,4 +21,5 @@ export {
   InventoryTable,
   UpdateModal,
   IngredientCard,
+  IngredientSetion,
 };
