@@ -32,7 +32,7 @@ app.use("/api/auth", AuthRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/recovery", PasswordRecoveryRoute);
 app.use("/api/inventory", InventoryRoute);
-app.use("/api/payment", paymentRoute);
+app.use("/api/payment", PaymentRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port : ", process.env.PORT);
