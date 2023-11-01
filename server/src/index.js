@@ -9,6 +9,7 @@ const AuthRoute = require("./routes/auth.routes.js");
 const UserRoute = require("./routes/user.routes.js");
 const PasswordRecoveryRoute = require("./routes/email.routes.js");
 const InventoryRoute = require("./routes/inventory.routes.js");
+const PaymentRoute = require("./routes/payment.routes.js");
 
 connection();
 
@@ -31,6 +32,7 @@ app.use("/api/auth", AuthRoute);
 app.use("/api/user", UserRoute);
 app.use("/api/recovery", PasswordRecoveryRoute);
 app.use("/api/inventory", InventoryRoute);
+app.use("/api/payment", paymentRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port : ", process.env.PORT);
