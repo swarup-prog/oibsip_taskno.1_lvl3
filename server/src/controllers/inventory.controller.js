@@ -11,7 +11,7 @@ const addIngredient = async (req, res) => {
     await new Inventory({ ...body }).save();
     res.status(201).send({ message: "Ingredient added successfully." });
   } catch (error) {
-    console.log("Error in registration", error);
+    console.log("Error in while adding ingredient", error);
     res.status(500).send({ message: "Internal Server error" });
   }
 };
