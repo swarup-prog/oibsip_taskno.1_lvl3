@@ -4,9 +4,11 @@ import { CustomButton, Tab } from "../../components";
 import { useEffect, useState } from "react";
 import AvailablePizza from "./contents/availablePizza";
 import MakePizza from "./contents/makePizza";
+import { toastError, toastSuccess } from "../../utils/toast";
+import { PostRequest } from "../../services/httpRequest";
 
 const Kitchen = () => {
-  const user = useSelector((state) => state.userData);
+  const user = useSelector((state) => state.userData.data);
   const ingredients = useSelector((state) => state.customOrder.ingredients);
   const tab = localStorage.getItem("userActiveTab");
   const [activeTab, setActiveTab] = useState(tab ? tab : "Available Pizza");
@@ -42,6 +44,62 @@ const Kitchen = () => {
   const handleTabClick = (tabTitle) => {
     setActiveTab(tabTitle);
     localStorage.setItem("userActiveTab", tabTitle);
+  };
+
+  const handleOrder = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+
+      if (!res) {
+        toastError("Razropay failed to load!!");
+        return;
+      }
+
+      const response = await PostRequest(
+        `/payment/createOrder/${user._id}`,
+        order
+      );
+
+      if (response.status === 200) {
+        var options = {
+          key: "" + response.data.key_id + "",
+          amount: "" + response.data.amount + "",
+          currency: "INR",
+          name: "" + response.data.product_name + "",
+          description: "" + response.data.description + "",
+          image: "https://dummyimage.com/600x400/000/fff",
+          order_id: "" + response.data.order_id + "",
+          handler: function (response) {
+            toastSuccess(response.razorpay_payment_id);
+            toastSuccess(response.razorpay_order_id);
+            toastSuccess(response.razorpay_signature);
+          },
+          prefill: {
+            name: "" + response.data.name + "",
+            email: "" + response.data.email + "",
+          },
+          // "notes" : {
+          //   "description":""+response.data.description+""
+          // },
+          theme: {
+            color: "#EF4343",
+          },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        razorpayObject.on("payment.failed", function (response) {
+          toastError(response.error.description);
+          toastError(response.error.reason);
+        });
+      }
+    } catch (error) {
+      toastError(error.response.message);
+    }
   };
 
   return (
@@ -107,10 +165,28 @@ const Kitchen = () => {
             <span>Rs. {order.total}</span>
           </div>
         </div>
-        <CustomButton title={"Place Order"} className={`mt-7`} />
+        <CustomButton
+          title={"Place Order"}
+          className={`mt-7`}
+          onClick={handleOrder}
+        />
       </aside>
     </div>
   );
 };
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 export default Kitchen;

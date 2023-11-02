@@ -14,7 +14,7 @@ const createOrder = async (req, res) => {
   try {
     const user = await User.findById(userId, { password: 0, __v: 0 });
 
-    const amount = req.body.total;
+    const amount = req.body.total * 100;
     const options = {
       amount: amount,
       currency: "INR",
@@ -29,8 +29,8 @@ const createOrder = async (req, res) => {
           order_id: order.id,
           amount: amount,
           key_id: RAZORPAY_KEY_ID,
-          product_name: req.body.name,
-          description: req.body.description,
+          product_name: "Pizza",
+          // description: req.body.description,
           name: user.name,
           email: user.email,
         });
