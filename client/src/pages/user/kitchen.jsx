@@ -10,6 +10,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { clearIngredient } from "../../features/customOrderSlice";
 import { useDispatch } from "react-redux";
 import pizzaImg from "../../assets/yummyPizza.jpg";
+import { clearUserData } from "../../features/authSlice";
 
 const Kitchen = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,6 @@ const Kitchen = () => {
   const ingredients = useSelector((state) => state.customOrder.ingredients);
   const tab = localStorage.getItem("userActiveTab");
   const [activeTab, setActiveTab] = useState(tab ? tab : "Available Pizza");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [order, setOrder] = useState({
     pizzaName: "",
@@ -133,23 +133,37 @@ const Kitchen = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userActiveTab");
+    localStorage.removeItem("adminActiveTab");
+    dispatch(clearUserData());
+  };
+
   return (
     <div className="pt-20 px-16 pb-5  flex min-h-screen bg-gray-100 gap-5">
-      <aside className=" items-center flex-col gap-2 flex-initial w-80 dashboard-section">
-        <Tab
-          title={"Make Custom Pizza"}
-          onClick={handleTabClick}
-          isActive={activeTab === "Make Custom Pizza"}
-        />
-        <Tab
-          title={"Favourites"}
-          onClick={handleTabClick}
-          isActive={activeTab === "Favourites"}
-        />
-        <Tab
-          title={"Order History"}
-          onClick={handleTabClick}
-          isActive={activeTab === "Order History"}
+      <aside className=" items-center flex-col gap-2 flex-initial w-80 dashboard-section justify-between">
+        <div className="w-full flex flex-col gap-2">
+          <Tab
+            title={"Make Custom Pizza"}
+            onClick={handleTabClick}
+            isActive={activeTab === "Make Custom Pizza"}
+          />
+          <Tab
+            title={"Favourites"}
+            onClick={handleTabClick}
+            isActive={activeTab === "Favourites"}
+          />
+          <Tab
+            title={"Order History"}
+            onClick={handleTabClick}
+            isActive={activeTab === "Order History"}
+          />
+        </div>
+        <CustomButton
+          title="Logout"
+          onClick={handleLogout}
+          className={`w-[288px] h-[48px] justify-center items-center`}
         />
       </aside>
 
