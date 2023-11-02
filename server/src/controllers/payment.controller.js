@@ -1,13 +1,20 @@
 const Razorpay = require("razorpay");
+const { User } = require("../models/user/User");
+
+const { RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET } = process.env;
 
 const razorpayInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: RAZORPAY_KEY_ID,
+  key_secret: RAZORPAY_KEY_SECRET,
 });
 
 const createOrder = async (req, res) => {
+  const userId = req.params.id;
+
   try {
-    const amount = req.body.amount;
+    const user = await User.findById(userId, { password: 0, __v: 0 });
+
+    const amount = req.body.total;
     const options = {
       amount: amount,
       currency: "INR",
@@ -24,11 +31,11 @@ const createOrder = async (req, res) => {
           key_id: RAZORPAY_KEY_ID,
           product_name: req.body.name,
           description: req.body.description,
-          contact: "8567345632",
-          name: "Sandeep Sharma",
-          email: "sandeep@gmail.com",
+          name: user.name,
+          email: user.email,
         });
       } else {
+        console.log(err);
         res.status(400).send({ success: false, msg: "Something went wrong!" });
       }
     });
