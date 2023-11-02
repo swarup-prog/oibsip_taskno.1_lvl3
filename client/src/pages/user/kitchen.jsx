@@ -7,8 +7,13 @@ import MakePizza from "./contents/makePizza";
 import { toastError, toastSuccess } from "../../utils/toast";
 import { PostRequest } from "../../services/httpRequest";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { clearIngredient } from "../../features/customOrderSlice";
+import { useDispatch } from "react-redux";
+import pizzaImg from "../../assets/yummyPizza.jpg";
 
 const Kitchen = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.userData.data);
   const ingredients = useSelector((state) => state.customOrder.ingredients);
   const tab = localStorage.getItem("userActiveTab");
@@ -81,20 +86,36 @@ const Kitchen = () => {
           currency: "INR",
           name: "" + response.data.product_name + "",
           description: "" + response.data.description + "",
-          image: "https://dummyimage.com/600x400/000/fff",
+          image: { pizzaImg },
           order_id: "" + response.data.order_id + "",
-          handler: function (response) {
-            toastSuccess(response.razorpay_payment_id);
-            toastSuccess(response.razorpay_order_id);
-            toastSuccess(response.razorpay_signature);
+          handler: async function (response) {
+            // toastSuccess(response.razorpay_payment_id);
+            // toastSuccess(response.razorpay_order_id);
+            // toastSuccess(response.razorpay_signature);
+            setOrder({ ...order, paymentId: response.razorpay_payment_id });
+            const res = await PostRequest(
+              `/order/placeOrder/${user._id}`,
+              order
+            );
+            if (res.status === 201) {
+              toastSuccess(res.data.message);
+              dispatch(clearIngredient());
+              setOrder({
+                pizzaName: "",
+                pizzaBase: "",
+                cheese: "",
+                sauce: "",
+                veggies: "",
+                meat: "",
+                total: 0,
+                favourite: false,
+              });
+            }
           },
           prefill: {
             name: "" + response.data.name + "",
             email: "" + response.data.email + "",
           },
-          // "notes" : {
-          //   "description":""+response.data.description+""
-          // },
           theme: {
             color: "#EF4343",
           },
@@ -116,21 +137,32 @@ const Kitchen = () => {
     <div className="pt-20 px-16 pb-5  flex min-h-screen bg-gray-100 gap-5">
       <aside className=" items-center flex-col gap-2 flex-initial w-80 dashboard-section">
         <Tab
-          title={"Available Pizza"}
-          onClick={handleTabClick}
-          isActive={activeTab === "Available Pizza"}
-        />
-        <Tab
           title={"Make Custom Pizza"}
           onClick={handleTabClick}
           isActive={activeTab === "Make Custom Pizza"}
         />
+        <Tab
+          title={"Favourites"}
+          onClick={handleTabClick}
+          isActive={activeTab === "Favourites"}
+        />
+        <Tab
+          title={"Order History"}
+          onClick={handleTabClick}
+          isActive={activeTab === "Order History"}
+        />
       </aside>
+
       <section className=" flex-1 dashboard-section w-full h-[899px] overflow-y-auto ">
         {activeTab === "Available Pizza" && <AvailablePizza />}
         {activeTab === "Make Custom Pizza" && <MakePizza />}
       </section>
-      <aside className=" items-center flex-col gap-2 flex-initial w-96 dashboard-section">
+
+      <aside
+        className={`items-center flex-col gap-2 flex-initial w-96 dashboard-section ${
+          activeTab === "Order History" ? "hidden" : "flex"
+        }`}
+      >
         <h1 className="text-xl font-medium border-b-2 border-b-gray-200 mb-5 pb-2">
           Your Order
         </h1>

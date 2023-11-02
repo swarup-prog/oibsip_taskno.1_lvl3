@@ -1,6 +1,5 @@
 import logo from "../../assets/logos/logo-no-background.png";
 import CustomButton from "../buttons/CustomButton";
-import Notification from "../cards/Notification";
 import DropdownMenu from "../dropdowns/DropdownMenu";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +7,7 @@ import { clearUserData } from "../../features/authSlice";
 import { RiNotification2Line } from "react-icons/ri";
 
 import "../../App.css";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const Navbar = () => {
           >
             <img src={logo} alt="Logo" width={90} />
           </div>
-          <div className="block">
+          {/* <div className="block">
             {user.isLoggedIn && (
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
@@ -66,7 +65,7 @@ const Navbar = () => {
                 </ul>
               </nav>
             )}
-          </div>
+          </div> */}
           <div className="flex items-center gap-5">
             {user.isLoggedIn && (
               <div className="flex flex-col items-end">
