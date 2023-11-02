@@ -1,5 +1,5 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { setIngredient } from "../../features/ingredientSlice";
+import { clearIngredient } from "../../features/ingredientSlice";
 import { useDispatch } from "react-redux";
 import TextInput from "../inputFields/TextInput";
 import CustomButton from "../buttons/CustomButton";
@@ -12,7 +12,7 @@ import { PostRequest } from "../../services/httpRequest";
 const UpdateModal = ({ isOpen }) => {
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(setIngredient({}));
+    dispatch(clearIngredient());
   };
 
   const ingredient = useSelector((state) => state.selectedIngredient.data);
@@ -46,9 +46,9 @@ const UpdateModal = ({ isOpen }) => {
         `/inventory/updateIngredient/${ingredient._id}`,
         formData
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         toastSuccess(response.data.message);
-        dispatch(setIngredient({}));
+        dispatch(clearIngredient());
       }
       console.log("response", response);
     } catch (error) {

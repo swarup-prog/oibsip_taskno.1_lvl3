@@ -42,7 +42,7 @@ const updateIngredient = async (req, res) => {
     ingredient.set({ ...body });
     const updatedIngredient = await ingredient.save();
 
-    res.status(200).json(updateIngredient);
+    res.status(200).send({ message: "Ingredient updated successfully" });
   } catch (error) {
     console.error("Error updating ingredient details:", error);
     res.status(500).json({ error: "Internal server error" });

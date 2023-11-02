@@ -57,7 +57,11 @@ const InventoryTable = ({ heading }) => {
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
                     Rs. {ingredient.price}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-center">
+                  <td
+                    className={`whitespace-nowrap px-4 py-2 ${
+                      ingredient.quantity > 20 ? "text-gray-700" : "text-accent"
+                    } text-center`}
+                  >
                     {ingredient.quantity}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-center">

@@ -11,10 +11,14 @@ export const ingredientSlice = createSlice({
   reducers: {
     setIngredient: (state, action) => {
       state.data = action.payload;
-      state.isSelected = !state.isSelected;
+      state.isSelected = true;
+    },
+    clearIngredient: (state) => {
+      state.data = {};
+      state.isSelected = false;
     },
   },
 });
 
-export const { setIngredient } = ingredientSlice.actions;
+export const { setIngredient, clearIngredient } = ingredientSlice.actions;
 export default ingredientSlice.reducer;
