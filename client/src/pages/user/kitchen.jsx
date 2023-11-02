@@ -1,25 +1,29 @@
 import { useSelector } from "react-redux";
 import "../../App.CSS";
-import { CustomButton, Tab } from "../../components";
+import { CustomButton, Tab, TextInput } from "../../components";
 import { useEffect, useState } from "react";
 import AvailablePizza from "./contents/availablePizza";
 import MakePizza from "./contents/makePizza";
 import { toastError, toastSuccess } from "../../utils/toast";
 import { PostRequest } from "../../services/httpRequest";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 const Kitchen = () => {
   const user = useSelector((state) => state.userData.data);
   const ingredients = useSelector((state) => state.customOrder.ingredients);
   const tab = localStorage.getItem("userActiveTab");
   const [activeTab, setActiveTab] = useState(tab ? tab : "Available Pizza");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [order, setOrder] = useState({
+    pizzaName: "",
     pizzaBase: "",
     cheese: "",
     sauce: "",
     veggies: "",
     meat: "",
     total: 0,
+    favourite: false,
   });
 
   useEffect(() => {
@@ -40,6 +44,12 @@ const Kitchen = () => {
       console.log(order);
     }
   }, [ingredients]);
+
+  useEffect(() => {
+    if (!order.favourite) {
+      setOrder({ ...order, pizzaName: "" });
+    }
+  }, [order.favourite]);
 
   const handleTabClick = (tabTitle) => {
     setActiveTab(tabTitle);
@@ -165,6 +175,38 @@ const Kitchen = () => {
             <span>Rs. {order.total}</span>
           </div>
         </div>
+        <div className="mt-5 flex flex-col items-center gap-5">
+          <span
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => {
+              setOrder({ ...order, favourite: !order.favourite });
+              console.log(order);
+            }}
+          >
+            {order.favourite ? (
+              <AiFillHeart color="#EF4343" size={20} />
+            ) : (
+              <AiOutlineHeart color="#EF4343" size={20} />
+            )}
+            Add to Favourites
+          </span>
+          <div
+            className={`transition-all duration-300 ${
+              order.favourite ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
+            } overflow-hidden`}
+          >
+            <TextInput
+              type="text"
+              name="pizzaName"
+              label="Pizza Name"
+              value={order.pizzaName}
+              onChange={(e) => {
+                setOrder({ ...order, pizzaName: e.target.value });
+              }}
+            />
+          </div>
+        </div>
+        <span>{order.pizzaName}</span>
         <CustomButton
           title={"Place Order"}
           className={`mt-7`}
