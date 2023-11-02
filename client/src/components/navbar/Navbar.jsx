@@ -18,11 +18,6 @@ const Navbar = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("userToken");
-    dispatch(clearUserData());
-  };
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -33,40 +28,14 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
           <div
             className="md:flex md:items-center md:gap-12 cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => {
+              navigate(lenUserData > 0 ? "/" : "/dashboard");
+            }}
           >
             <img src={logo} alt="Logo" width={90} />
           </div>
-          {/* <div className="block">
-            {user.isLoggedIn && (
-              <nav aria-label="Global">
-                <ul className="flex items-center gap-6 text-sm">
-                  {userData.role === "admin" && (
-                    <li
-                      className="text-ternary"
-                      onClick={() => navigate("/dashboard")}
-                    >
-                      Dashboard
-                    </li>
-                  )}
-                  {userData.role === "user" && (
-                    <>
-                      <li
-                        className="text-ternary"
-                        onClick={() => navigate("/kitchen")}
-                      >
-                        Kitchen
-                      </li>
-                      <li className="text-ternary" onClick={() => {}}>
-                        Profile
-                      </li>
-                    </>
-                  )}
-                </ul>
-              </nav>
-            )}
-          </div> */}
-          <div className="flex items-center gap-5">
+
+          <div className="flex items-center gap-7">
             {user.isLoggedIn && (
               <div className="flex flex-col items-end">
                 <RiNotification2Line
@@ -80,7 +49,10 @@ const Navbar = () => {
             {lenUserData === 0 ? (
               <CustomButton title="Login" onClick={() => navigate("/login")} />
             ) : (
-              <CustomButton title="Logout" onClick={handleLogout} />
+              <div className="flex flex-col justify-center border-2 border-solid border-accent rounded md py-1 pl-3 pr-6 cursor-default">
+                <h3 className="text-sm font-medium">{user.data.name}</h3>
+                <p className="text-xs text-gray-400">{user.data.email}</p>
+              </div>
             )}
           </div>
         </div>
