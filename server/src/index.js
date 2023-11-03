@@ -11,8 +11,10 @@ const UserRoute = require("./routes/user.routes.js");
 const PasswordRecoveryRoute = require("./routes/email.routes.js");
 const InventoryRoute = require("./routes/inventory.routes.js");
 const PaymentRoute = require("./routes/payment.routes.js");
-const cron = require("node-cron");
 const OrderRoute = require("./routes/order.routes.js");
+const FavouriteRoute = require("./routes/favourite.routes.js");
+
+const cron = require("node-cron");
 
 connection();
 
@@ -37,6 +39,7 @@ app.use("/api/recovery", PasswordRecoveryRoute);
 app.use("/api/inventory", InventoryRoute);
 app.use("/api/payment", PaymentRoute);
 app.use("/api/order", OrderRoute);
+app.use("/api/favourite", FavouriteRoute);
 
 cron.schedule("0 * * * *", async () => {
   try {
