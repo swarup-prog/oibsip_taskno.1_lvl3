@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import {
   Login,
   Signup,
@@ -21,6 +21,7 @@ import { fetchUserData } from "./features/authSlice";
 import { fetchIngredients } from "./features/inventorySlice";
 
 function App() {
+  const navigate = useNavigate();
   const pathsWithoutNavbar = ["/login", "/signup"];
   const [navbarVisible, setNavbarVisible] = useState(true);
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
       const userId = jwtDecode(userToken)._id;
       dispatch(fetchUserData(userId));
       dispatch(fetchIngredients());
+      navigate("/dashboard");
     }
   }, [dispatch, userToken]);
 
