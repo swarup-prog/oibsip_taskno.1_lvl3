@@ -18,7 +18,7 @@ const Kitchen = () => {
   const user = useSelector((state) => state.userData.data);
   const ingredients = useSelector((state) => state.customOrder.ingredients);
   const tab = localStorage.getItem("userActiveTab");
-  const [activeTab, setActiveTab] = useState(tab ? tab : "Available Pizza");
+  const [activeTab, setActiveTab] = useState(tab ? tab : "Make Custom Pizza");
 
   const [order, setOrder] = useState({
     pizzaName: "",
@@ -92,14 +92,13 @@ const Kitchen = () => {
             // toastSuccess(response.razorpay_payment_id);
             // toastSuccess(response.razorpay_order_id);
             // toastSuccess(response.razorpay_signature);
-            setOrder({ ...order, paymentId: response.razorpay_payment_id });
+            order.paymentId = response.razorpay_payment_id;
             const res = await PostRequest(
               `/order/placeOrder/${user._id}`,
               order
             );
             if (res.status === 201) {
               toastSuccess(res.data.message);
-              dispatch(clearIngredient());
               setOrder({
                 pizzaName: "",
                 pizzaBase: "",
@@ -110,6 +109,7 @@ const Kitchen = () => {
                 total: 0,
                 favourite: false,
               });
+              dispatch(clearIngredient());
             }
           },
           prefill: {
