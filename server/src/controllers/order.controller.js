@@ -6,9 +6,12 @@ const placeOrder = async (req, res) => {
   let body = { ...req.body };
 
   try {
+    const userId = req.params.id;
+    body = { ...body, user: userId };
+
     if (body.favourite) {
       const { paymentId, favourite, ...favouriteOrder } = req.body;
-      await new Favourite({ ...favouriteOrder }).save();
+      await new Favourite({ ...favouriteOrder, user: userId }).save();
     }
 
     if (!body.status) body = { ...body, status: "Pending" };
@@ -42,4 +45,22 @@ const placeOrder = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder };
+const getUserOrders = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const order = await Order.findOne({ user: userId });
+
+    if (!order) {
+      return res
+        .status(404)
+        .send({ message: "You haven't ordered anything yet." });
+    }
+
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error("Error retrieving order:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { placeOrder, getUserOrders };
