@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import "../../App.CSS";
 import { CustomButton, Tab, TextInput } from "../../components";
 import { useEffect, useState } from "react";
-import AvailablePizza from "./contents/availablePizza";
+import Favourites from "./contents/favourites";
 import MakePizza from "./contents/makePizza";
+import OrderHistory from "./contents/orderHistory";
 import { toastError, toastSuccess } from "../../utils/toast";
 import { PostRequest } from "../../services/httpRequest";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
@@ -168,8 +169,9 @@ const Kitchen = () => {
       </aside>
 
       <section className=" flex-1 dashboard-section w-full h-[899px] overflow-y-auto ">
-        {activeTab === "Available Pizza" && <AvailablePizza />}
         {activeTab === "Make Custom Pizza" && <MakePizza />}
+        {activeTab === "Favourites" && <Favourites />}
+        {activeTab === "Order History" && <OrderHistory />}
       </section>
 
       <aside
