@@ -40,7 +40,7 @@ const updateIngredient = async (req, res) => {
 
     // Update the ingredient document and save the changes
     ingredient.set({ ...body });
-    const updatedIngredient = await ingredient.save();
+    await ingredient.save();
 
     res.status(200).send({ message: "Ingredient updated successfully" });
   } catch (error) {

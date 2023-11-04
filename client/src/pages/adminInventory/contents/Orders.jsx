@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { GetRequest } from "../../../services/httpRequest";
+import { GetRequest, PutRequest } from "../../../services/httpRequest";
 import { useSelector } from "react-redux";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { toastSuccess, toastError } from "../../../utils/toast";
 
 const Orders = () => {
   const userId = useSelector((state) => state.userData.data._id);
@@ -24,9 +25,37 @@ const Orders = () => {
 
   console.log("fetched", orderData);
 
+  const sortedOrderData = orderData.slice().sort((a, b) => {
+    // Compare the statuses to sort by "Delivered" orders at the bottom
+    if (a.status === "Delivered" && b.status !== "Delivered") {
+      return 1;
+    }
+    if (a.status !== "Delivered" && b.status === "Delivered") {
+      return -1;
+    }
+    // For other cases, maintain the original order
+    return 0;
+  });
+
   const handleViewDetails = (orderId) => {
     setDetails(!details);
     setSelectedOrder(orderId);
+  };
+
+  const handleStatusUpdate = async (orderId, crrStatus) => {
+    const sts = crrStatus === "Pending" ? "Processing" : "Delivered";
+    const response = await PutRequest(
+      `/order/updateOrderStatus/${orderId}`,
+      { status: sts },
+      {}
+    );
+    if (response.status === 200) {
+      toastSuccess(response.data);
+      window.location.reload();
+    } else {
+      toastError(response.data);
+    }
+    console.log(response);
   };
 
   return (
@@ -57,7 +86,7 @@ const Orders = () => {
 
         {orderData.length > 0 && (
           <tbody className="divide-y divide-gray-200">
-            {orderData.map((order) => {
+            {sortedOrderData.map((order) => {
               const formattedDate = new Intl.DateTimeFormat("en-US", {
                 dateStyle: "medium",
                 timeStyle: "short",
@@ -79,7 +108,7 @@ const Orders = () => {
                     <td className="whitespace-nowrap px-4 py-2 text-center">
                       {order.status}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-center">
+                    <td className="whitespace-nowrap px-4 py-2 text-center flex gap-6 items-center">
                       {details ? (
                         <IoIosArrowUp
                           color="#EF4343"
@@ -91,6 +120,20 @@ const Orders = () => {
                           onClick={() => handleViewDetails(order._id)}
                         />
                       )}
+                      <span
+                        className={`bg-accent text-secondary px-3 py-2 rounded-md hover:bg-red-700 cursor-pointer`}
+                        onClick={
+                          order.status === "Delivered"
+                            ? () => {
+                                toastError(
+                                  "You cannot Update this Order any further."
+                                );
+                              }
+                            : () => handleStatusUpdate(order._id, order.status)
+                        }
+                      >
+                        Update Status
+                      </span>
                     </td>
                   </tr>
                   <tr

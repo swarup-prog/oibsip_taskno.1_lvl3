@@ -92,4 +92,24 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder, getUserOrders, getAllOrders };
+const updateOrderStatus = async (req, res) => {
+  const body = { ...req.body };
+
+  try {
+    const orderId = req.params.id;
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).send({ message: "No such order found!" });
+    }
+    order.set({ ...order, status: body.status });
+    await order.save();
+    res.status(200).send({ message: "Status updated successfully" });
+    console.log(order);
+  } catch (error) {
+    console.error("Error retrieving order:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { placeOrder, getUserOrders, getAllOrders, updateOrderStatus };
