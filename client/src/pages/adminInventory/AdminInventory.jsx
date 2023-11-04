@@ -60,7 +60,7 @@ const AdminInventory = () => {
             className={`w-[288px] h-[48px] justify-center items-center`}
           />
         </aside>
-        <section className="px-32 flex-1 dashboard-section w-full h-[899px] overflow-y-auto ">
+        <section className="px-32 py-8 flex-1 dashboard-section w-full h-[899px] overflow-y-auto ">
           {activeTab === "Orders" && <Orders />}
           {activeTab === "Inventory" && <Inventory />}
           {activeTab === "Add Ingredients" && <AddIngredients />}

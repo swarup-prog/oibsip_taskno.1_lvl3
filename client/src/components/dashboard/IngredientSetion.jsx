@@ -27,7 +27,7 @@ const IngredientSetion = ({ heading }) => {
 
   return (
     <section>
-      <h1 className="text-xl font-medium border-b-2 border-b-gray-200 mb-5 pb-2">
+      <h1 className="text-lg font-medium border-b-2 border-b-gray-200 mb-5 pb-2">
         {heading}
       </h1>
       <div
@@ -44,7 +44,7 @@ const IngredientSetion = ({ heading }) => {
             <IngredientCard
               key={ing._id}
               ingredient={ing}
-              isSelected={selected === ing.name} 
+              isSelected={selected === ing.name}
               onClick={() => handleClick(ing.name)}
             />
           );

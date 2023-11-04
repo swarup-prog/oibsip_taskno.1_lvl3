@@ -30,7 +30,7 @@ const OrderHistory = () => {
   };
 
   return (
-    <div className="overflow-x-auto w-full">
+    <div className="overflow-x-auto w-full px-32 py-8">
       <h1 className="text-xl font-medium border-b-2 border-b-gray-200 mb-5 pb-2">
         Order History
       </h1>
