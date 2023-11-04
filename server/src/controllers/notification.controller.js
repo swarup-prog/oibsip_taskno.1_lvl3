@@ -3,7 +3,9 @@ const { Notification } = require("../models/notification/Notification");
 const getNotifications = async (req, res) => {
   try {
     const userId = req.params.id;
-    const notification = await Notification.find({ recipient: userId });
+    const notification = await Notification.find({ recipient: userId }).sort({
+      createdAt: -1,
+    });
 
     if (!notification) {
       return res

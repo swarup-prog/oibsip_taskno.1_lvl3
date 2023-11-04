@@ -17,6 +17,14 @@ const placeOrder = async (req, res) => {
 
     if (!body.status) body = { ...body, status: "Pending" };
 
+    const notification = new Notification({
+      recipient: userId,
+      title: `Order Placed`,
+      message: `Your order has been placed.`,
+      type: `order-placed`,
+    });
+    await notification.save();
+
     await new Order({ ...body }).save();
 
     await Promise.all(
@@ -41,7 +49,7 @@ const placeOrder = async (req, res) => {
 
     res.status(201).send({ message: "Order placed successfully." });
   } catch (error) {
-    console.log("Error in while adding ingredient", error);
+    console.log("Error in while placing order", error);
     res.status(500).send({ message: "Internal Server error" });
   }
 };

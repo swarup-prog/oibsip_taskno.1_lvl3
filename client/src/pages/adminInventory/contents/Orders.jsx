@@ -26,14 +26,12 @@ const Orders = () => {
   console.log("fetched", orderData);
 
   const sortedOrderData = orderData.slice().sort((a, b) => {
-    // Compare the statuses to sort by "Delivered" orders at the bottom
     if (a.status === "Delivered" && b.status !== "Delivered") {
       return 1;
     }
     if (a.status !== "Delivered" && b.status === "Delivered") {
       return -1;
     }
-    // For other cases, maintain the original order
     return 0;
   });
 
@@ -44,11 +42,9 @@ const Orders = () => {
 
   const handleStatusUpdate = async (orderId, crrStatus) => {
     const sts = crrStatus === "Pending" ? "Processing" : "Delivered";
-    const response = await PutRequest(
-      `/order/updateOrderStatus/${orderId}`,
-      { status: sts },
-      {}
-    );
+    const response = await PutRequest(`/order/updateOrderStatus/${orderId}`, {
+      status: sts,
+    });
     if (response.status === 200) {
       toastSuccess(response.data);
       window.location.reload();
