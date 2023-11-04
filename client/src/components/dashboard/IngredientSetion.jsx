@@ -1,6 +1,6 @@
 import { useState } from "react";
 import IngredientCard from "../cards/IngredientsCard";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const IngredientSetion = ({ heading }) => {
   const ingredients = useSelector((state) => state.inventory.data);
@@ -44,7 +44,7 @@ const IngredientSetion = ({ heading }) => {
             <IngredientCard
               key={ing._id}
               ingredient={ing}
-              isSelected={selected === ing.name} // Check if the ingredient is selected
+              isSelected={selected === ing.name} 
               onClick={() => handleClick(ing.name)}
             />
           );

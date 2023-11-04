@@ -3,7 +3,12 @@ const { Favourite } = require("../models/favourite/Favourite");
 const getFavourites = async (req, res) => {
   try {
     const userId = req.params.id;
-    const favourites = await Favourite.findOne({ user: userId });
+    const favourites = await Favourite.find({ user: userId })
+      .populate("pizzaBase", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("cheese", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("sauce", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("veggies", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("meat", { description: 0, quantity: 0, type: 0, __v: 0 });
 
     if (!favourites) {
       return res

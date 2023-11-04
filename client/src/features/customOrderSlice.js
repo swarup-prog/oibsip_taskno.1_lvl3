@@ -12,11 +12,15 @@ export const customOrderSlice = createSlice({
       const { type, ...payload } = action.payload;
       state.ingredients[type] = payload;
     },
+    setIngredientNoType: (state, action) => {
+      state.ingredients = action.payload;
+    },
     clearIngredient: (state) => {
       state.ingredients = {};
     },
   },
 });
 
-export const { setIngredient, clearIngredient } = customOrderSlice.actions;
+export const { setIngredient, clearIngredient, setIngredientNoType } =
+  customOrderSlice.actions;
 export default customOrderSlice.reducer;

@@ -9,6 +9,7 @@ import InventoryTable from "./dashboard/InventoryTable";
 import UpdateModal from "./modal/UpdateModal";
 import IngredientCard from "./cards/IngredientsCard";
 import IngredientSetion from "./dashboard/IngredientSetion";
+import FavouriteCard from "./cards/FavouriteCard";
 
 export {
   TextInput,
@@ -22,4 +23,5 @@ export {
   UpdateModal,
   IngredientCard,
   IngredientSetion,
+  FavouriteCard,
 };
