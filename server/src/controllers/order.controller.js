@@ -1,6 +1,7 @@
 const { Order } = require("../models/order/Order");
 const { Inventory } = require("../models/inventory/Inventory");
 const { Favourite } = require("../models/favourite/Favourite");
+const { Notification } = require("../models/notification/Notification.js");
 
 const placeOrder = async (req, res) => {
   let body = { ...req.body };
@@ -104,8 +105,22 @@ const updateOrderStatus = async (req, res) => {
     }
     order.set({ ...order, status: body.status });
     await order.save();
+
+    const notification = new Notification({
+      recipient: order.user,
+      title: `Order ${body.status}`,
+      message: `Your order ${
+        body.status === "Processing"
+          ? "is being processed."
+          : "has been sent for delivery."
+      }`,
+      type: ` ${
+        body.status === "Processing" ? "order-processing" : "order-delivered"
+      }`,
+    });
+    await notification.save();
+
     res.status(200).send({ message: "Status updated successfully" });
-    console.log(order);
   } catch (error) {
     console.error("Error retrieving order:", error);
     res.status(500).json({ error: "Internal server error" });

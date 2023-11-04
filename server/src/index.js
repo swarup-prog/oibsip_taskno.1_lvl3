@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const connection = require("./database/connect.js");
 const fileUpload = require("express-fileupload");
-const { Inventory } = require("./models/inventory/Inventory.js");
 
 const AuthRoute = require("./routes/auth.routes.js");
 const UserRoute = require("./routes/user.routes.js");
@@ -13,8 +12,6 @@ const InventoryRoute = require("./routes/inventory.routes.js");
 const PaymentRoute = require("./routes/payment.routes.js");
 const OrderRoute = require("./routes/order.routes.js");
 const FavouriteRoute = require("./routes/favourite.routes.js");
-
-const cron = require("node-cron");
 
 connection();
 
@@ -41,19 +38,7 @@ app.use("/api/payment", PaymentRoute);
 app.use("/api/order", OrderRoute);
 app.use("/api/favourite", FavouriteRoute);
 
-cron.schedule("0 * * * *", async () => {
-  try {
-    // Query the inventory for items with a quantity less than 20
-    const lowQuantityItems = await Inventory.find({ quantity: { $lt: 20 } });
-
-    if (lowQuantityItems.length > 0) {
-      // Send a notification to the admin (you need to implement this logic)
-      console.log("Low quantity items:", lowQuantityItems);
-    }
-  } catch (error) {
-    console.error("Error checking inventory:", error);
-  }
-});
+require("./helpers/cronNotification.js");
 
 app.listen(process.env.PORT, () => {
   console.log("Server is running on port : ", process.env.PORT);
