@@ -20,4 +20,18 @@ const getNotifications = async (req, res) => {
   }
 };
 
-module.exports = getNotifications;
+const deleteNotifications = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await Notification.deleteMany({ recipient: userId });
+
+    return res
+      .status(200)
+      .json({ message: "All notifications deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting notifications:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { getNotifications, deleteNotifications };
