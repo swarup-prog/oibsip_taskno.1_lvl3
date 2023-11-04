@@ -122,7 +122,7 @@ const updateOrderStatus = async (req, res) => {
           ? "is being processed."
           : "has been sent for delivery."
       }`,
-      type: ` ${
+      type: `${
         body.status === "Processing" ? "order-processing" : "order-delivered"
       }`,
     });
