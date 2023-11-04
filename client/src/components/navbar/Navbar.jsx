@@ -2,8 +2,7 @@ import logo from "../../assets/logos/logo-no-background.png";
 import CustomButton from "../buttons/CustomButton";
 import DropdownMenu from "../dropdowns/DropdownMenu";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { clearUserData } from "../../features/authSlice";
+import { useSelector } from "react-redux";
 import { RiNotification2Line } from "react-icons/ri";
 
 import "../../App.css";
@@ -11,15 +10,18 @@ import { useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.userData);
+  const notification = useSelector((state) => state.notification);
   const userData = user.data;
   const lenUserData = userData.length;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const [isRead, setIsRead] = useState(notification.isRead);
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+    setIsRead(true);
   };
 
   return (
@@ -38,6 +40,11 @@ const Navbar = () => {
           <div className="flex items-center gap-7">
             {user.isLoggedIn && (
               <div className="flex flex-col items-end">
+                <span
+                  className={`absolute w-2 h-2 rounded-full ${
+                    isRead ? "bg-transparent" : "bg-accent"
+                  }`}
+                ></span>
                 <RiNotification2Line
                   className={isDropdownOpen ? "text-accent" : "text-ternary"}
                   size={20}
