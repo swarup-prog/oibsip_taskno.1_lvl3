@@ -25,7 +25,9 @@ const FavouriteCard = ({ data, isSelected, onClick }) => {
 
   return (
     <div
-      className="flex flex-col bg-accent text-secondary rounded-md p-3 w-[288px] cursor-pointer"
+      className={`flex flex-col ${
+        isSelected ? "bg-red-700" : "bg-accent"
+      } text-secondary rounded-md p-3 min-w-[250px] cursor-pointer`}
       onClick={onClick}
     >
       <h1 className="text-md font-medium mb-2 pb-2">{data.pizzaName}</h1>

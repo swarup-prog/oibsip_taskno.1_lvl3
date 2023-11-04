@@ -45,7 +45,6 @@ const Kitchen = () => {
         newOrder.total = newOrder.total + ingredientPrice;
       }
 
-      // Update the order state with the new values
       setOrder(newOrder);
       console.log(order);
     }
@@ -223,38 +222,39 @@ const Kitchen = () => {
             <span>Rs. {order.total}</span>
           </div>
         </div>
-        <div className="mt-5 flex flex-col items-center gap-5">
-          <span
-            className="flex items-center gap-3 cursor-pointer"
-            onClick={() => {
-              setOrder({ ...order, favourite: !order.favourite });
-              console.log(order);
-            }}
-          >
-            {order.favourite ? (
-              <AiFillHeart color="#EF4343" size={20} />
-            ) : (
-              <AiOutlineHeart color="#EF4343" size={20} />
-            )}
-            Add to Favourites
-          </span>
-          <div
-            className={`transition-all duration-300 ${
-              order.favourite ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
-            } overflow-hidden`}
-          >
-            <TextInput
-              type="text"
-              name="pizzaName"
-              label="Pizza Name"
-              value={order.pizzaName}
-              onChange={(e) => {
-                setOrder({ ...order, pizzaName: e.target.value });
+        {activeTab !== "Favourites" && (
+          <div className="mt-5 flex flex-col items-center gap-5">
+            <span
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => {
+                setOrder({ ...order, favourite: !order.favourite });
+                console.log(order);
               }}
-            />
+            >
+              {order.favourite ? (
+                <AiFillHeart color="#EF4343" size={20} />
+              ) : (
+                <AiOutlineHeart color="#EF4343" size={20} />
+              )}
+              Add to Favourites
+            </span>
+            <div
+              className={`transition-all duration-300 ${
+                order.favourite ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
+              } overflow-hidden`}
+            >
+              <TextInput
+                type="text"
+                name="pizzaName"
+                label="Pizza Name"
+                value={order.pizzaName}
+                onChange={(e) => {
+                  setOrder({ ...order, pizzaName: e.target.value });
+                }}
+              />
+            </div>
           </div>
-        </div>
-        <span>{order.pizzaName}</span>
+        )}
         <CustomButton
           title={"Place Order"}
           className={`mt-7`}

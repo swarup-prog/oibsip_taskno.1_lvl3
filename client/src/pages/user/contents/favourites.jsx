@@ -34,7 +34,7 @@ const Favourites = () => {
         Favourites
       </h1>
 
-      <div className="flex gap-20">
+      <div className="flex gap-5 w-full flex-wrap justify-center">
         {favourites.map((favourite) => {
           return (
             <FavouriteCard
