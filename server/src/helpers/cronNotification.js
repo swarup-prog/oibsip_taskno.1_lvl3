@@ -11,7 +11,6 @@ const checkLowQuantityItems = async () => {
       const adminUsers = await User.find({ role: "admin" });
 
       if (adminUsers.length > 0) {
-        // Send a notification to each admin user
         adminUsers.forEach(async (adminUser) => {
           const notification = new Notification({
             recipient: adminUser._id,

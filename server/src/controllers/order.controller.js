@@ -2,6 +2,7 @@ const { Order } = require("../models/order/Order");
 const { Inventory } = require("../models/inventory/Inventory");
 const { Favourite } = require("../models/favourite/Favourite");
 const { Notification } = require("../models/notification/Notification.js");
+const { User } = require("../models/user/User.js");
 
 const placeOrder = async (req, res) => {
   let body = { ...req.body };
@@ -24,6 +25,21 @@ const placeOrder = async (req, res) => {
       type: `order-placed`,
     });
     await notification.save();
+
+    const adminUsers = await User.find({ role: "admin" });
+
+    if (adminUsers.length > 0) {
+      adminUsers.forEach(async (adminUser) => {
+        const notification = new Notification({
+          recipient: adminUser._id,
+          title: "New Order",
+          message: "There is a new order from customers.",
+          type: "order-placed",
+        });
+        await notification.save();
+        console.log("Notification sent");
+      });
+    }
 
     await new Order({ ...body }).save();
 
@@ -58,6 +74,9 @@ const getUserOrders = async (req, res) => {
   try {
     const userId = req.params.id;
     const order = await Order.find({ user: userId }, { __v: 0 })
+      .sort({
+        createdAt: -1,
+      })
       .populate("pizzaBase", { description: 0, quantity: 0, type: 0, __v: 0 })
       .populate("cheese", { description: 0, quantity: 0, type: 0, __v: 0 })
       .populate("sauce", { description: 0, quantity: 0, type: 0, __v: 0 })
@@ -81,6 +100,9 @@ const getUserOrders = async (req, res) => {
 const getAllOrders = async (req, res) => {
   try {
     const order = await Order.find({}, { __v: 0 })
+      .sort({
+        createdAt: -1,
+      })
       .populate("pizzaBase", { description: 0, quantity: 0, type: 0, __v: 0 })
       .populate("cheese", { description: 0, quantity: 0, type: 0, __v: 0 })
       .populate("sauce", { description: 0, quantity: 0, type: 0, __v: 0 })
