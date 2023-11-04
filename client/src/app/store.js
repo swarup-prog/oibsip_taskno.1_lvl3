@@ -4,6 +4,7 @@ import otpReducer from "../features/otpSlice";
 import ingredientReducer from "../features/ingredientSlice";
 import inventoryReducer from "../features/inventorySlice";
 import customOrderReducer from "../features/customOrderSlice";
+import notificationReducer from "../features/notificationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     inventory: inventoryReducer,
     selectedIngredient: ingredientReducer,
     customOrder: customOrderReducer,
+    notification: notificationReducer,
   },
 });

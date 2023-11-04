@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { fetchUserData } from "./features/authSlice";
 import { fetchIngredients } from "./features/inventorySlice";
+import { fetchNotification } from "./features/notificationSlice";
 
 function App() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function App() {
       const userId = jwtDecode(userToken)._id;
       dispatch(fetchUserData(userId));
       dispatch(fetchIngredients());
+      dispatch(fetchNotification(userId));
       navigate("/dashboard");
     }
   }, [dispatch, userToken]);
