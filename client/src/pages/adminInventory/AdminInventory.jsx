@@ -14,6 +14,7 @@ const AdminInventory = () => {
 
   const handleTabClick = (tabTitle) => {
     setActiveTab(tabTitle);
+    localStorage.setItem("adminActiveTab", tabTitle);
   };
 
   const ingredient = useSelector((state) => state.selectedIngredient);

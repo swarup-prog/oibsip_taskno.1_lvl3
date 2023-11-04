@@ -9,6 +9,13 @@ export default {
         ternary: "hsl(var(--color-ternary) / <alpha-value>)",
         accent: "hsl(var(--color-accent) / <alpha-value>)",
       },
+      transitionProperty: {
+        "max-height": "max-height",
+        opacity: "opacity",
+      },
+      transitionDuration: {
+        fast: "1s",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar")],
