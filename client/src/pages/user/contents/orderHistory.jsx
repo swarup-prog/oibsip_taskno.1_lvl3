@@ -55,7 +55,7 @@ const OrderHistory = () => {
           </tr>
         </thead>
 
-        {orderData.length > 0 && (
+        {orderData.length > 0 ? (
           <tbody className="divide-y divide-gray-200">
             {orderData.map((order) => {
               const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -159,6 +159,8 @@ const OrderHistory = () => {
               );
             })}
           </tbody>
+        ) : (
+          <div>You haven't ordered anything.</div>
         )}
       </table>
     </div>

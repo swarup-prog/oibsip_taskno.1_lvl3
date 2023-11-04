@@ -17,9 +17,15 @@ const DropdownMenu = ({ className }) => {
           Notifications
         </strong>
 
-        {notifications.map((notification) => {
-          return <Notification details={notification} key={notification._id} />;
-        })}
+        {notifications.length > 0 ? (
+          notifications.map((notification) => {
+            return (
+              <Notification details={notification} key={notification._id} />
+            );
+          })
+        ) : (
+          <div>There are no new notifications.</div>
+        )}
       </div>
     </div>
   );
