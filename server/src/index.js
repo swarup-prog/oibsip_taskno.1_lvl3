@@ -38,7 +38,7 @@ app.use("/api/inventory", InventoryRoute);
 app.use("/api/payment", PaymentRoute);
 app.use("/api/order", OrderRoute);
 app.use("/api/favourite", FavouriteRoute);
-app.use("/api/getNotification", NotificationRoute);
+app.use("/api/notification", NotificationRoute);
 
 require("./helpers/cronNotification.js");
 
