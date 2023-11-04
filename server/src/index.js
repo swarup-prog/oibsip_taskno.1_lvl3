@@ -12,6 +12,7 @@ const InventoryRoute = require("./routes/inventory.routes.js");
 const PaymentRoute = require("./routes/payment.routes.js");
 const OrderRoute = require("./routes/order.routes.js");
 const FavouriteRoute = require("./routes/favourite.routes.js");
+const NotificationRoute = require("./routes/notification.routes.js");
 
 connection();
 
@@ -37,6 +38,7 @@ app.use("/api/inventory", InventoryRoute);
 app.use("/api/payment", PaymentRoute);
 app.use("/api/order", OrderRoute);
 app.use("/api/favourite", FavouriteRoute);
+app.use("/api/getNotification", NotificationRoute);
 
 require("./helpers/cronNotification.js");
 
