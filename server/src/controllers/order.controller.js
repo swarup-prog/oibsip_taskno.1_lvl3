@@ -48,7 +48,13 @@ const placeOrder = async (req, res) => {
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.params.id;
-    const order = await Order.findOne({ user: userId });
+    const order = await Order.find({ user: userId }, { __v: 0 })
+      .populate("pizzaBase", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("cheese", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("sauce", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("veggies", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("meat", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("user", { password: 0, role: 0, __v: 0 });
 
     if (!order) {
       return res
@@ -63,4 +69,27 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder, getUserOrders };
+const getAllOrders = async (req, res) => {
+  try {
+    const order = await Order.find({}, { __v: 0 })
+      .populate("pizzaBase", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("cheese", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("sauce", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("veggies", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("meat", { description: 0, quantity: 0, type: 0, __v: 0 })
+      .populate("user", { password: 0, role: 0, __v: 0 });
+
+    if (!order) {
+      return res
+        .status(404)
+        .send({ message: "You haven't ordered anything yet." });
+    }
+
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error("Error retrieving order:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { placeOrder, getUserOrders, getAllOrders };
